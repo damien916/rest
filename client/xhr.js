@@ -1,5 +1,5 @@
 /*
- * Copyright 2012-2016 the original author or authors
+ * Copyright 2012-2017 the original author or authors
  * @license MIT, see LICENSE.txt for details
  *
  * @author Scott Andrews
@@ -117,7 +117,8 @@ module.exports = client(function xhr (request) {
             text: client.statusText
           }
           response.headers = parseHeaders(client.getAllResponseHeaders())
-          response.entity = client.responseText
+          // If responseType is set to arrayBuffer, you have to get response from response and not from responseText
+          response.entity = client.responseType === 'arraybuffer' ? client.response : client.responseText
 
           // #125 -- Sometimes IE8-9 uses 1223 instead of 204
           // http://stackoverflow.com/questions/10046972/msie-returns-status-code-of-1223-for-ajax-request
